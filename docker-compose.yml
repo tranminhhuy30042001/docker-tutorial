@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: none 
+      POSTGRES_USER: postgres
+      POSTGRES_DB: projectruby
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5434:5434"
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
